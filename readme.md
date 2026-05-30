@@ -1,6 +1,6 @@
-# EmaiL Spam Detector made with Sklearn
+# Email Spam Detector made with Scikit Learn
 
-This is a sklearn model that detects wheater or not an inputed email is a spam or not. This model was made for resumes and deploys a website where you can copy paste emails to see if its spam.
+This is a sklearn model that detects wheater or not an inputed email is a spam or not. This model was made for my resume and deploys a website where you can copy & paste emails to see if its spam.
 
 This webstie can found at: https://email-spam-detector-d811.onrender.com/
 
