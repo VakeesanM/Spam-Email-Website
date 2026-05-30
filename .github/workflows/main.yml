@@ -1,1 +1,55 @@
+name: CI/CD
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+
+
+jobs:
+    python-test:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: "3.11"
+            - name: Install Dependancies
+              run: |
+                python -m pip install -r requirements.txt 
+            - name: Check Unit Tests
+              run: |
+                python -m pytest -v
+    Docker-test:
+        needs: python-test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+            - name: Login into Docker
+              uses: docker/login-action@v4
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+            - name: Build Docker Image
+              run: |
+                docker build -t Email-detection .
+            - name: Run Docker Container
+              run: |
+                docker run -p 8501:8501 --name email_app Email-detection
+                sleep 2
+                curl http://localhost:8501/ || exit 1
+                docker stop email_app
+            - name: Publish Docker Image
+              uses: docker/build-push-action@v7
+              with:
+                context: .
+                push: true
+                tags: vakeesanm/email-spam-detection:latest
+
+
 
