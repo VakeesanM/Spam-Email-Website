@@ -37,10 +37,10 @@ jobs:
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
             - name: Build Docker Image
               run: |
-                docker build -t Email-detection .
+                docker build -t email-detection .
             - name: Run Docker Container
               run: |
-                docker run -p 8501:8501 --name email_app Email-detection
+                docker run -p 8501:8501 --name email_app email-detection
                 sleep 2
                 curl http://localhost:8501/ || exit 1
                 docker stop email_app
