@@ -40,10 +40,11 @@ jobs:
                 docker build -t email-detection .
             - name: Run Docker Container
               run: |
-                docker run -p 8501:8501 --name email_app email-detection
+                docker run -d -p 8501:8501 --name email_app email-detection
                 sleep 2
                 curl http://localhost:8501/ || exit 1
                 docker stop email_app
+                docker rm -f email_app || true
             - name: Publish Docker Image
               uses: docker/build-push-action@v7
               with:
