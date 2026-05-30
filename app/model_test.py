@@ -1,7 +1,7 @@
 import sklearn 
 import joblib
 
-model = joblib.load("Spam-detection.pkl")
+model = joblib.load("app/Spam-detection.pkl")
 
 # Just a Basic PyTest
 Emails= ["""Dear Winner,
